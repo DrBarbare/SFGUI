@@ -122,7 +122,7 @@ elseif( "${CMAKE_SYSTEM_NAME}" MATCHES "Linux" )
 	find_package( X11 REQUIRED )
 	target_link_libraries( ${TARGET} PUBLIC ${X11_LIBRARIES} )
 	set( SHARE_PATH "${CMAKE_INSTALL_PREFIX}/share/SFGUI" )
-	
+
 	if( LIB_SUFFIX )
 		set( LIB_PATH "lib${LIB_SUFFIX}" )
 	else()
