@@ -14,20 +14,19 @@ matrix:
         env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=lasote/conangcc8 CONAN_ARCHS=x86_64
       - <<: *linux
         env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=lasote/conanclang60 CONAN_ARCHS=x86_64
-      - <<: *osx
-        osx_image: xcode10
-        env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_BUILD_POLICY=missing
 
 before_install:
   - docker pull ${CONAN_DOCKER_IMAGE}
-  - docker run --rm -d --name runner-${CONAN_GCC_VERSIONS}-${CONAN_ARCHS} ${CONAN_DOCKER_IMAGE}
+  - docker run -d --name runner-${CONAN_GCC_VERSIONS}-${CONAN_ARCHS} --rm -t ${CONAN_DOCKER_IMAGE}
   - docker ps -a
 
 install:
+  - docker ps -a
   - chmod +x .ci/install.sh
   - docker exec runner-${CONAN_GCC_VERSIONS}-${CONAN_ARCHS} ./.ci/install.sh
 
 script:
+  - docker ps -a
   - chmod +x .ci/run.sh
   - docker exec runner-${CONAN_GCC_VERSIONS}-${CONAN_ARCHS} ./.ci/run.sh
   - docker stop runner-${CONAN_GCC_VERSIONS}-${CONAN_ARCHS}
