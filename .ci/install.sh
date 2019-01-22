@@ -22,4 +22,5 @@ then
 fi
 
 pip install conan --upgrade
+conan remote add -f bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 conan install .
