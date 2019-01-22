@@ -18,12 +18,19 @@ set( BUILD_SHARED_LIBS ${SFGUI_BUILD_SHARED_LIBS} )
 option( SFGUI_BUILD_EXAMPLES    "Build examples."                               ON)
 option( SFGUI_BUILD_DOC         "Generate API documentation."                   OFF)
 option( SFGUI_INCLUDE_FONT      "Include default font in library (DejaVuSans)." ON)
-option( SFML_STATIC_LIBRARIES   "Do you want to link SFML statically?"          OFF)
 
 
 # Find packages.
 find_package( OpenGL REQUIRED )
-find_package( SFML 2.5 REQUIRED COMPONENTS graphics window system )
+if ( EXISTS ${CMAKE_SOURCE_DIR}/conanbuildinfo.cmake )
+	include( ${CMAKE_SOURCE_DIR}/conanbuildinfo.cmake )
+	conan_basic_setup()
+else ()
+	option( SFML_STATIC_LIBRARIES   "Do you want to link SFML statically?"          OFF)
+	find_package( SFML 2.5 REQUIRED COMPONENTS graphics window system )
+	set( SFML_LIBRARIES sfml-graphics sfml-window sfml-system )
+endif()
+
 
 set( INCLUDE_PATH "${PROJECT_SOURCE_DIR}/include/" )
 set( SOURCE_PATH "${PROJECT_SOURCE_DIR}/src/" )
@@ -56,7 +63,7 @@ if( SFGUI_INCLUDE_FONT )
 	target_compile_definitions( ${TARGET} PRIVATE SFGUI_INCLUDE_FONT )
 endif()
 
-target_link_libraries( ${TARGET} PUBLIC sfml-graphics sfml-window sfml-system ${OPENGL_gl_LIBRARY} )
+target_link_libraries( ${TARGET} PUBLIC ${CONAN_LIBS} ${SFML_LIBRARIES} ${OPENGL_gl_LIBRARY} )
 
 # Tell the compiler to export when necessary.
 set_target_properties( ${TARGET} PROPERTIES DEFINE_SYMBOL SFGUI_EXPORTS )
