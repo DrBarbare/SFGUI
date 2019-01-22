@@ -17,16 +17,16 @@ matrix:
 
 before_install:
   - docker pull ${CONAN_DOCKER_IMAGE}
-  - docker run -d --name runner-${CONAN_GCC_VERSIONS}-${CONAN_ARCHS} --rm -t ${CONAN_DOCKER_IMAGE}
+  - docker run -d --name runner-${CONAN_GCC_VERSIONS}-${CONAN_ARCHS} -v ${PWD}:${PWD} -w ${PWD} --rm -t ${CONAN_DOCKER_IMAGE}
   - docker ps -a
 
 install:
   - docker ps -a
   - chmod +x .ci/install.sh
-  - docker exec runner-${CONAN_GCC_VERSIONS}-${CONAN_ARCHS} ./.ci/install.sh
+  - docker exec runner-${CONAN_GCC_VERSIONS}-${CONAN_ARCHS} -c ./.ci/install.sh
 
 script:
   - docker ps -a
   - chmod +x .ci/run.sh
-  - docker exec runner-${CONAN_GCC_VERSIONS}-${CONAN_ARCHS} ./.ci/run.sh
+  - docker exec runner-${CONAN_GCC_VERSIONS}-${CONAN_ARCHS} -c ./.ci/run.sh
   - docker stop runner-${CONAN_GCC_VERSIONS}-${CONAN_ARCHS}
