@@ -25,11 +25,12 @@ else
                -u root \
                --name "${RUNNER}" \
                --rm -t -d ${DOCKER_IMAGE}
-    command_prefix="docker run ${RUNNER}"
+    command_prefix=(docker run ${RUNNER})
 fi
 
-"${command_prefix}" pip install conan --upgrade
-conan=(${command_prefix} conan)
+${command_prefix[@]} pip install conan --upgrade
+
+conan=(${command_prefix[@]} conan)
 ${conan[@]} remote add -f bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 ${conan[@]} profile new default --detect  # Generates default profile detecting GCC and sets old ABI
 
