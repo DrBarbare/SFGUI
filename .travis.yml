@@ -13,20 +13,17 @@ matrix:
       # - <<: *linux
       #   env: GCC_VERSIONS=8 DOCKER_IMAGE=lasote/conangcc8 ARCHS=x86_64
       - <<: *linux
-        env: CLANG_VERSIONS=6.0 DOCKER_IMAGE=lasote/conanclang60 ARCHS=x86_64
+        env: CLANG_VERSIONS=6.0 DOCKER_IMAGE=lasote/conanclang60 ARCHS=x86_64 RUNNER=runner-${GCC_VERSIONS}${CLANG_VERSIONS}-${ARCHS}
 
 before_install:
   - docker pull ${DOCKER_IMAGE}
-  - docker run -e GCC_VERSIONS -e CLANG_VERSIONS -u root -d --name runner-${GCC_VERSIONS}-${ARCHS} -v ${PWD}:${PWD} -w ${PWD} --rm -t ${DOCKER_IMAGE}
-  - docker ps -a
+  - docker run -e GCC_VERSIONS -e CLANG_VERSIONS -u root -d --name "${RUNNER}" -v ${PWD}:${PWD} -w ${PWD} --rm -t ${DOCKER_IMAGE}
 
 install:
-  - docker ps -a
   - chmod +x .ci/install.sh
-  - docker exec runner-${GCC_VERSIONS}-${ARCHS} /bin/bash -c "ls -la; /bin/bash ./.ci/install.sh;"
+  - docker exec "${RUNNER}" /bin/bash ./.ci/install.sh;"
 
 script:
-  - docker ps -a
   - chmod +x .ci/run.sh
-  - docker exec runner-${GCC_VERSIONS}-${ARCHS} /bin/bash -c "ls -la;/bin/bash ./.ci/run.sh;"
-  - docker stop runner-${GCC_VERSIONS}-${ARCHS}
+  - docker exec "${RUNNER}" /bin/bash ./.ci/run.sh;"
+  - docker stop "${RUNNER}"

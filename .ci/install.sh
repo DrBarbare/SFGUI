@@ -25,12 +25,11 @@ conan remote add -f bincrafters https://api.bintray.com/conan/bincrafters/public
 conan profile new default --detect  # Generates default profile detecting GCC and sets old ABI
 
 # Sets libcxx to C++11 ABI
-echo "CLANG_VERSIONS=${CLANG_VERSIONS}"
+echo "CLANG_VERSIONS=${CLANG_VERSIONS:-}"
 if [ ! -z "${CLANG_VERSIONS:-}" ] || [[ "$(uname -s)" == 'Darwin' ]];
 then
-    conan profile update settings.compiler.libcxx=libc++11 default
+    conan profile update settings.compiler.libcxx=libc++ default
 else
-    conan profile update settings.compiler.libcxx=libc++11 default
-    #conan profile update settings.compiler.libcxx=libstdc++11 default
+    conan profile update settings.compiler.libcxx=libstdc++11 default
 fi
 conan install .
