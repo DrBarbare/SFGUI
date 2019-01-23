@@ -3,7 +3,9 @@
 set -e
 set -x
 
-if [[ "$(uname -s)" == 'Darwin' ]];
+readonly OSX=[[ "$(uname -s)" == 'Darwin' ]];
+
+if ${OSX};
 then
     brew update || brew update
     brew outdated pyenv || brew upgrade pyenv
@@ -26,10 +28,12 @@ conan remote add -f bincrafters https://api.bintray.com/conan/bincrafters/public
 conan profile new default --detect  # Generates default profile detecting GCC and sets old ABI
 
 # Sets libcxx to C++11 ABI
-if [[ "$(uname -s)" == 'Darwin' ]] || [ ! -z "${CONAN_CLANG_VERSIONS:-}" ];
+echo "CLANG_VERSIONS=${CLANG_VERSIONS}"
+if [ ! -z "${CLANG_VERSIONS:-}" -o ${OSX} ];
 then
     conan profile update settings.compiler.libcxx=libc++11 default
 else
-    conan profile update settings.compiler.libcxx=libstdc++11 default
+    conan profile update settings.compiler.libcxx=libc++11 default
+    #conan profile update settings.compiler.libcxx=libstdc++11 default
 fi
 conan install .
