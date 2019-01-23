@@ -17,7 +17,7 @@ matrix:
 
 before_install:
   - docker pull ${CONAN_DOCKER_IMAGE}
-  - docker run -d --name runner-${CONAN_GCC_VERSIONS}-${CONAN_ARCHS} -v ${PWD}:${PWD} -w ${PWD} --rm -t ${CONAN_DOCKER_IMAGE}
+  - docker run -u root -d --name runner-${CONAN_GCC_VERSIONS}-${CONAN_ARCHS} -v ${PWD}:${PWD} -w ${PWD} --rm -t ${CONAN_DOCKER_IMAGE}
   - docker ps -a
 
 install:
