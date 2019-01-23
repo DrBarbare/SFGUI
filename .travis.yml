@@ -21,9 +21,9 @@ before_install:
 
 install:
   - chmod +x .ci/install.sh
-  - docker exec "${RUNNER}" /bin/bash ./.ci/install.sh;"
+  - docker exec "${RUNNER}" /bin/bash ./.ci/install.sh
 
 script:
   - chmod +x .ci/run.sh
-  - docker exec "${RUNNER}" /bin/bash ./.ci/run.sh;"
+  - docker exec "${RUNNER}" /bin/bash ./.ci/run.sh
   - docker stop "${RUNNER}"
