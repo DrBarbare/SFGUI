@@ -9,7 +9,7 @@ then
     need_stop=false
 else
     generator="-GNinja"
-    cmake=(docker run ${RUNNER} cmake)
+    cmake=(docker exec ${RUNNER} cmake)
     need_stop=true
 fi
 

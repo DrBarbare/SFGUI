@@ -25,7 +25,7 @@ else
                -u root \
                --name "${RUNNER}" \
                --rm -t -d ${DOCKER_IMAGE}
-    command_prefix=(docker run ${RUNNER})
+    command_prefix=(docker exec ${RUNNER})
 fi
 
 ${command_prefix[@]} pip install conan --upgrade
