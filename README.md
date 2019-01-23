@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/DrBarbare/SFGUI.svg?branch=feature%2Fconan-dependencies-managment)](https://travis-ci.org/DrBarbare/SFGUI)
+
 # SFGUI — Simple and Fast Graphical User Interface
 
 ## Getting started
