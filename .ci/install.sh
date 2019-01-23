@@ -28,7 +28,7 @@ conan profile new default --detect  # Generates default profile detecting GCC an
 echo "CLANG_VERSIONS=${CLANG_VERSIONS:-}"
 if [ ! -z "${CLANG_VERSIONS:-}" ] || [[ "$(uname -s)" == 'Darwin' ]];
 then
-    conan profile update settings.compiler.libcxx=libc++ default
+    conan profile update settings.compiler.libcxx=libstdc++ default
 else
     conan profile update settings.compiler.libcxx=libstdc++11 default
 fi
