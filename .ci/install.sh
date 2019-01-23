@@ -1,11 +1,8 @@
 #!/bin/bash
 
-set -e
-set -x
+set -eux
 
-readonly OSX=[[ "$(uname -s)" == 'Darwin' ]];
-
-if ${OSX};
+if [[ "$(uname -s)" == 'Darwin' ]];
 then
     brew update || brew update
     brew outdated pyenv || brew upgrade pyenv
@@ -29,7 +26,7 @@ conan profile new default --detect  # Generates default profile detecting GCC an
 
 # Sets libcxx to C++11 ABI
 echo "CLANG_VERSIONS=${CLANG_VERSIONS}"
-if [ ! -z "${CLANG_VERSIONS:-}" -o ${OSX} ];
+if [ ! -z "${CLANG_VERSIONS:-}" ] || [[ "$(uname -s)" == 'Darwin' ]];
 then
     conan profile update settings.compiler.libcxx=libc++11 default
 else
