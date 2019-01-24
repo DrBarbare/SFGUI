@@ -2,12 +2,15 @@
 
 set -ex
 
-if [ "${MY_OS}" = "osx" ];
+cmake=("cmake")
+if [ "${TRAVIS_OS_NAME}" = "osx" ];
 then
     generator="-GXcode"
-    cmake=("cmake")
     CORES=4 # Apple toolchain can't figure out the number of cores...
     need_stop=false
+elif [ "${TRAVIS_OS_NAME}" = "windows"]
+then
+    generator=("-GVisual Studio 15 2017 Win64")
 else
     generator="-GNinja"
     cmake=(docker exec ${RUNNER} cmake)
