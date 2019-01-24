@@ -116,7 +116,7 @@ elseif( APPLE )
 	find_library( COREFOUNDATION_LIBRARY CoreFoundation )
 	mark_as_advanced( COREFOUNDATION_LIBRARY )
 
-	target_add_library( ${TARGET} PUBLIC ${COREFOUNDATION_LIBRARY} )
+	target_link_libraries( ${TARGET} PUBLIC ${COREFOUNDATION_LIBRARY} )
 
 	set( SHARE_PATH "${CMAKE_INSTALL_PREFIX}/share/SFGUI" )
 	set( LIB_PATH "lib" )
