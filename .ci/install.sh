@@ -12,8 +12,6 @@ elif [ "${MY_OS}" = "windows" ];
 then
     choco install conan || :;
     command_prefix=(bash)
-    echo "This shell: $PATH"
-    bash echo "Child shell: $PATH"
     ls /c/ProgramData/chocolatey/bin
 else
     docker pull ${DOCKER_IMAGE}
