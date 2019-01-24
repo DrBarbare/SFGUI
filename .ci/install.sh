@@ -2,7 +2,7 @@
 
 set -ex
 
-command_prefix=""
+command_prefix=()
 
 if [ "${MY_OS}" = "osx" ];
 then
@@ -11,6 +11,11 @@ then
 elif [ "${MY_OS}" = "windows" ];
 then
     choco install conan
+    command_prefix=(bash)
+    echo "This shell: $PATH"
+    bash echo "Child shell: $PATH"
+    ls /C/ProgramData/chocolatey || ls /c/ProgramData/chocolatey
+    powershell
 else
     docker pull ${DOCKER_IMAGE}
     docker run -v ${PWD}:${PWD} -w ${PWD}  \
