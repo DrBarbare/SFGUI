@@ -9,7 +9,8 @@ if [ "${MY_OS}" = "osx" ];
 then
     brew update || brew update
     brew install cmake || :;
-else
+elif [ ! "${MY_OS}" = "windows" ];
+then
     docker pull ${DOCKER_IMAGE}
     docker run -v ${PWD}:${PWD} -w ${PWD}  \
                -u root \
