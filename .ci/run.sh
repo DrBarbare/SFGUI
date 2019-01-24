@@ -8,9 +8,10 @@ then
     generator="-GXcode"
     CORES=4 # Apple toolchain can't figure out the number of cores...
     need_stop=false
-elif [ "${TRAVIS_OS_NAME}" = "windows"]
+elif [ "${TRAVIS_OS_NAME}" = "windows" ];
 then
     generator=("-GVisual Studio 15 2017 Win64")
+    need_stop=false
 else
     generator="-GNinja"
     cmake=(docker exec ${RUNNER} cmake)
