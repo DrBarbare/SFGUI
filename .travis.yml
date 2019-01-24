@@ -14,12 +14,14 @@ osx: &windows
 matrix:
    include:
       # - <<: *linux
-      #   env: CXX_VERSION=gcc8 DOCKER_IMAGE=lasote/conangcc8 ARCHS=x86_64
+      #   env: CXX_VERSION=gcc8 DOCKER_IMAGE=lasote/conangcc8 ARCHS=x86_64 MY_OS=linux
       # - <<: *linux
-      #   env: CXX_VERSION=clang-6.0 DOCKER_IMAGE=lasote/conanclang60 ARCHS=x86_64
-      - <<: *osx
-        osx_image: xcode10
-        env: CXX_VERSIONS=apple-clang-10.0
+      #   env: CXX_VERSION=clang-6.0 DOCKER_IMAGE=lasote/conanclang60 ARCHS=x86_64 MY_OS=linux
+      # - <<: *osx
+      #   osx_image: xcode10
+      #   env: CXX_VERSION=apple-clang-10.0 MY_OS=osx
+      - <<: *windows
+          env: CXX_VERSION=vs2017 MY_OS=windows
 
 
 install:
