@@ -23,7 +23,7 @@ fi
 if [ "${MY_OS}" = "windows" ];
 then
     choco install conan || :;
-    export PATH="${PATH}:/c/Program Files/Conan/conan/conan";
+    export PATH="${PATH}:/c/Program Files/Conan/conan";
 else
     ${command_prefix[@]} pip install conan --upgrade;
 fi
