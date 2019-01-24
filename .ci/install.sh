@@ -36,4 +36,9 @@ ${conan[@]} profile new default --detect  # Generates default profile detecting 
 
 # Sets libcxx to C++11 ABI
 ${conan[@]} profile update settings.compiler.libcxx=libstdc++11 default
-${conan[@]} install . || "${conan[@]}" install . --build sfml
+if [[ "$(uname -s)" == 'Darwin' ]];
+then
+    ${conan[@]} install . --build missing
+else
+    ${conan[@]} install . || ${conan[@]} install . --build sfml
+fi
