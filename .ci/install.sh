@@ -7,15 +7,14 @@ command_prefix=()
 if [ "${MY_OS}" = "osx" ];
 then
     brew update || brew update
-    brew install cmake || true
+    brew install cmake || :;
 elif [ "${MY_OS}" = "windows" ];
 then
-    choco install conan
+    choco install conan || :;
     command_prefix=(bash)
     echo "This shell: $PATH"
     bash echo "Child shell: $PATH"
-    ls /C/ProgramData/chocolatey || ls /c/ProgramData/chocolatey
-    powershell
+    ls /c/ProgramData/chocolatey/bin
 else
     docker pull ${DOCKER_IMAGE}
     docker run -v ${PWD}:${PWD} -w ${PWD}  \
@@ -28,9 +27,11 @@ fi
 if [ ! "${MY_OS}" = "windows" ];
 then
     ${command_prefix[@]} pip install conan --upgrade
+    conan=(${command_prefix[@]} conan)
+else
+    conan=(${command_prefix[@]} "$(find /c/ProgramData/chocolatey/bin -name "conan")");
 fi
 
-conan=(${command_prefix[@]} conan)
 ${conan[@]} remote add -f bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 ${conan[@]} profile new default --detect  # Generates default profile detecting GCC and sets old ABI
 
