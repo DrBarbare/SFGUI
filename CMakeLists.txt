@@ -112,17 +112,12 @@ if( WIN32 )
 	set( SHARE_PATH "." )
 	set( LIB_PATH "lib" )
 elseif( APPLE )
+	# Apple Frameworks being nice bundles, CMake directly interpret them as targets!
 	find_library( COREFOUNDATION_LIBRARY CoreFoundation )
 	mark_as_advanced( COREFOUNDATION_LIBRARY )
 
-	add_library( CoreFoundation SHARED IMPORTED )
-	set_target_properties(
-		CoreFoundation PROPERTIES
-			IMPORTED_LOCATION "${COREFOUNDATION_LIBRARY}"
-			INTERFACE_INCLUDE_DIRECTORIES "/System/Library/Frameworks/CoreFoundation.framework/Headers"
-	)
-	
-	target_link_libraries( ${TARGET} PUBLIC CoreFoundation )
+	target_add_library( ${TARGET} PUBLIC ${COREFOUNDATION_LIBRARY} )
+
 	set( SHARE_PATH "${CMAKE_INSTALL_PREFIX}/share/SFGUI" )
 	set( LIB_PATH "lib" )
 elseif( "${CMAKE_SYSTEM_NAME}" MATCHES "Linux" )
