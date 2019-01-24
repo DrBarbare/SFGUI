@@ -40,7 +40,7 @@ elif [ "${TRAVIS_OS_NAME}" = "windows" ];
 then
     ${conan[@]} profile update settings.compiler="Visual Studio" default
     ${conan[@]} profile update settings.compiler.version=15 default
-    ${conan[@]} profile update settings.compiler.libcxx=libstdc++11 default
+    ${conan[@]} profile remove settings.compiler.libcxx default
 else
     # Sets libcxx to C++11 ABI
     ${conan[@]} profile update settings.compiler.libcxx=libstdc++11 default
