@@ -15,7 +15,7 @@ fi
 
 build_dir="$(pwd)/build"
 ${cmake[@]} -H"$(pwd)" -B"${build_dir}" "${generator}" -DCMAKE_BUILD_TYPE=Release
-${cmake[@]} --build "${build_dir}" --config Release
+${cmake[@]} --build "${build_dir}" --config Release -j
 
 if ${need_stop};
 then
