@@ -11,6 +11,8 @@ then
     brew install cmake || :;
 elif [ ! "${TRAVIS_OS_NAME}" = "windows" ];
 then
+    # Start a pre-configured docker image
+    # Images are picked from bincrafters sfml recipe
     docker pull ${DOCKER_IMAGE}
     docker run -v ${PWD}:${PWD} -w ${PWD}  \
                -u root \
@@ -35,11 +37,16 @@ ${conan[@]} profile new default --detect  # Generates default profile detecting 
 
 if [ "${TRAVIS_OS_NAME}" = "osx" ];
 then
+    # AppleClang is a bit old, and most recent library is libc++
+    # https://forums.developer.apple.com/thread/73004
     ${conan[@]} profile update settings.compiler.libcxx=libc++ default
 elif [ "${TRAVIS_OS_NAME}" = "windows" ];
 then
+    # The "--detect" option finds gcc 8, so we set Visual Studio manually
     ${conan[@]} profile update settings.compiler="Visual Studio" default
     ${conan[@]} profile update settings.compiler.version=15 default
+
+    # libcxx setting not used on windows
     ${conan[@]} profile remove settings.compiler.libcxx default
 else
     # Sets libcxx to C++11 ABI
